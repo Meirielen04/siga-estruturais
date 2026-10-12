@@ -8,13 +8,14 @@ public class Main {
 
     public static void main(String[] args) {
         SecretariaLegadoWS servicoLegado = new SecretariaLegadoWS();
+        FonteDeAlunos fonte = new AdaptadorSecretariaLegado(servicoLegado);
         AlunoDAO alunoDAO = new AlunoDAOMemoria();
 
         System.out.println("=== SIGA — Aula 10: Adapter e Facade (código inicial) ===");
 
         System.out.println();
         System.out.println("1) Importação a partir do sistema legado");
-        ImportadorAlunos importador = new ImportadorAlunos(servicoLegado, alunoDAO);
+        ImportadorAlunos importador = new ImportadorAlunos(fonte, alunoDAO);
         System.out.println("   Alunos importados: " + importador.importar());
         System.out.println("   Situação segundo o importador:");
         for (Aluno aluno : alunoDAO.listarTodos()) {
@@ -23,10 +24,11 @@ public class Main {
 
         System.out.println();
         System.out.println("2) O mesmo dado, convertido por outro trecho do sistema");
-        new RelatorioSituacao(servicoLegado).imprimir();
-        System.out.println("   >> DESLIZE 1: a aluna 2024003 aparece INATIVA acima e ATIVA aqui.");
-        System.out.println("      A conversão existe em dois lugares, e as versões divergiram.");
-        System.out.println("   >> DESLIZE 2: o importador depende da classe concreta do legado.");
+        new RelatorioSituacao(fonte).imprimir();
+        // System.out.println("   >> DESLIZE 1: a aluna 2024003 aparece INATIVA acima e ATIVA aqui.");
+        // System.out.println("      A conversão existe em dois lugares, e as versões divergiram.");
+        // System.out.println("   >> DESLIZE 2: o importador depende da classe concreta do legado.");
+        // Deslizes 1 e 2 corrigidos
 
         System.out.println();
         System.out.println("3) Matrícula pela tela");

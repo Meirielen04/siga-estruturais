@@ -1,7 +1,7 @@
 package siga;
 
 /**
- * DESLIZE 1 (parte B) — a MESMA conversão, escrita de novo, em outro lugar.
+ * DESLIZE 1 (parte B) — a MESMA conversão, escrita de novo, em outro lugar - resolvido.
  *
  * Aqui alguém percebeu que a situação às vezes vem em minúscula e corrigiu.
  * A correção não chegou ao ImportadorAlunos: as duas versões já divergem,
@@ -9,17 +9,20 @@ package siga;
  */
 public class RelatorioSituacao {
 
-    private final SecretariaLegadoWS servicoLegado;
+    private final FonteDeAlunos fonteDeAlunos;
 
-    public RelatorioSituacao(SecretariaLegadoWS servicoLegado) {
-        this.servicoLegado = servicoLegado;
+    public RelatorioSituacao(FonteDeAlunos fonteDeAlunos) {
+        this.fonteDeAlunos = fonteDeAlunos;
     }
 
     public void imprimir() {
         System.out.println("   Situação segundo o relatório:");
-        for (String[] linha : servicoLegado.consultarTabelaAlunos()) {
-            Aluno aluno = new Aluno(linha[0], linha[1]);
-            aluno.setAtivo("A".equalsIgnoreCase(linha[2]));   // aqui trata
+        // for (String[] linha : servicoLegado.consultarTabelaAlunos()) {
+        //     Aluno aluno = new Aluno(linha[0], linha[1]);
+        //     aluno.setAtivo("A".equalsIgnoreCase(linha[2]));   // aqui trata
+        //     System.out.println("     " + aluno);
+        // }
+        for (Aluno aluno : fonteDeAlunos.listar()) {
             System.out.println("     " + aluno);
         }
     }
