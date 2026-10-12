@@ -1,8 +1,8 @@
-# SIGA — Atividade de padrões estruturais: Adapter e Facade (código inicial)
+# SIGA — Atividade de padrões estruturais: Adapter e Facade (código final)
 
 **Técnicas de Programação II (TP2) · Aula 10** — CST em Desenvolvimento de Software Multiplataforma · Fatec de Porto Ferreira
 
-Este é o **código inicial** da atividade prática da Aula 10. Ele funciona, compila e executa — e é justamente esse o ponto. O problema não é que o código esteja quebrado; é que ele contém **três deslizes de estrutura** que só aparecem quando o sistema cresce. Sua tarefa é corrigi-los aplicando os dois padrões da aula.
+Este é o **código final** da atividade prática da Aula 10. 
 
 ## Estrutura do projeto
 
@@ -21,9 +21,12 @@ siga-estruturais/
         ├── ControleVagas.java         (subsistema de matrícula; pronta)
         ├── CalculadoraDesconto.java   (subsistema de matrícula; pronta)
         ├── NotificadorEmail.java      (subsistema de matrícula; pronta)
-        ├── ImportadorAlunos.java      (deslizes 1A e 2)
-        ├── RelatorioSituacao.java     (deslize 1B)
-        ├── TelaMatricula.java         (deslize 3)
+        ├── ImportadorAlunos.java      (deslizes 1A e 2 — corrigido)
+        ├── RelatorioSituacao.java     (deslize 1B — corrigido)
+        ├── FonteDeAlunos.java         (Adapter — interface)
+        ├── AdaptadorSecretariaLegado.java (Adapter — implementação)
+        ├── TelaMatricula.java         (deslize 3 — corrigido)
+        ├── FachadaMatricula.java      (Facade)
         └── Main.java                  (demonstra os três deslizes)
 ```
 
@@ -41,7 +44,7 @@ java -cp bin siga.Main
 
 Execute antes de ler o restante deste arquivo: a saída **mostra os três deslizes acontecendo**.
 
-## Os três deslizes propositais
+## Os três deslizes propositais resolvidos
 
 | # | Deslize | Onde | Por que é um problema |
 |---|---|---|---|
@@ -53,7 +56,17 @@ Execute antes de ler o restante deste arquivo: a saída **mostra os três desliz
 
 Os dois trechos duplicados estão em `ImportadorAlunos` com `importar` e `RelatorioSituacao` com `imprimir()`, ambos percorrem `consultarTabelaAlunos()` e criam um aluno, só que apenas `RelatorioSituacao` trata para ignorar letra minuscula com `equalsIgnoreCase`. Os dois conhecem o que cada coluna faz no formato legado, que `linha[0]` é referente a matrícula, `linha[1]` é nome e `linha[2]` com letra `A` é ativo e `I` inativo; mas em `RelatorioSituacao` aceita `A` e `a`. Na saida a situação da aluna Ana sai como ativo no relatório e inativo no importador, tendo como consequência uma inconsistência.
 
-## Sua tarefa
+## Etapa 5 - Justificativa dos padrões
+
+### Adapter - `ImportadorAlunos` e `RelatorioSituacao`
+
+O problema: as duas classes conheciam direto a `SecretariaLegadoWS` e cada uma traduzia o formato legado do seu jeito - por isso as versões divergiram. Criei a interface `FonteDeAlunos` e a classe `AdaptadorSecretariaLegado`, que faz essa tradução uma única vez. Isso é um **Adapter**: adapta algo que não pode ser mudado para o formato que o resto do sistema espera.
+
+### Facade - `TelaMatricula`
+
+O problema: a tela conhecia os seis colaboradores da matrícula e a ordem certa de chamá-los, que é regra de negócio e não deveria estar na tela. Criei a `FachadaMatricula`, com um único método `matricular(...)` que faz essa orquestração por dentro. Isso é uma **Facade**: esconde um subsistema complexo atrás de uma interface simples.
+
+## Tarefas realizadas
 
 Siga as etapas da ficha de atividade prática:
 
