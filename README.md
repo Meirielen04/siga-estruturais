@@ -49,6 +49,10 @@ Execute antes de ler o restante deste arquivo: a saída **mostra os três desliz
 | 2 | **Dependência de classe concreta** | `ImportadorAlunos` | O importador recebe `SecretariaLegadoWS` no construtor. Trocar a origem dos alunos exige alterar o importador, e testá-lo exige o serviço externo. Violação do DIP (Aula 3). |
 | 3 | **Subsistema exposto à apresentação** | `TelaMatricula` | A tela recebe **seis colaboradores** e conhece a ordem correta de chamá-los — reservar a vaga só depois de gravar a matrícula. Essa ordem é regra de negócio e não deveria morar na tela. |
 
+## Etapa 1 - Localização da duplicação
+
+Os dois trechos duplicados estão em `ImportadorAlunos` com `importar` e `RelatorioSituacao` com `imprimir()`, ambos percorrem `consultarTabelaAlunos()` e criam um aluno, só que apenas `RelatorioSituacao` trata para ignorar letra minuscula com `equalsIgnoreCase`. Os dois conhecem o que cada coluna faz no formato legado, que `linha[0]` é referente a matrícula, `linha[1]` é nome e `linha[2]` com letra `A` é ativo e `I` inativo; mas em `RelatorioSituacao` aceita `A` e `a`. Na saida a situação da aluna Ana sai como ativo no relatório e inativo no importador, tendo como consequência uma inconsistência.
+
 ## Sua tarefa
 
 Siga as etapas da ficha de atividade prática:
